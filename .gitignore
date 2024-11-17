@@ -60,3 +60,7 @@ coverage/
 .npm/
 
 # Optional eslint cache
+
+# wwebjs cache and auto-generated files
+.wwebjs_cache/
+.wwebjs_auth/

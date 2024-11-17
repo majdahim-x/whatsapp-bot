@@ -15,22 +15,22 @@ export const createWhatsAppClient = async (id: string): Promise<Client> => {
     // if (clients[id]) {
     //     return clients[id];
     // }
-    const existingSession = await Session.findOne({ clientId: id });
+    // const existingSession = await Session.findOne({ clientId: id });
 
-    if (existingSession) {
-        // If a session exists, return the session data (you can include sessionData if needed)
-        //throw new Error(`Client ${id} already initialized.`);
-        throw new Error(`Client ${id} already initialized.`);
-    }
+    // if (existingSession) {
+    //     // If a session exists, return the session data (you can include sessionData if needed)
+    //     //throw new Error(`Client ${id} already initialized.`);
+    //     throw new Error(`Client ${id} already initialized.`);
+    // }
 
     console.log(`Initializing client with ID: ${id}`);
     const client = new Client({
-        // authStrategy: new LocalAuth({ clientId: id }),
-        authStrategy: new RemoteAuth({
-            store,
-            clientId: id,
-            backupSyncIntervalMs: 1000 * 60 * 60 * 24 * 7, // 1 week
-        }),
+        authStrategy: new LocalAuth({ clientId: id }),
+        // authStrategy: new RemoteAuth({
+        //     store: store.sessionData   ,
+        //     clientId: id,
+        //     backupSyncIntervalMs: 180000,
+        // }),
     });
 
     client.on('qr', (qr) => {
@@ -95,26 +95,38 @@ export const getClientStatus = (id: string) => {
     return sessions[id] || { status: 'NOT INITIALIZED' };
 };
 
-export const runExistingSessionEndpoint = async (req: Request, res: Response) => {
+export const runExistingSessionEndpoint = async (
+    req: Request,
+    res: Response
+) => {
     const { clientId } = req.body; // Assuming the clientId is passed in the request body
-  
+
     try {
-      // Look for an existing session in the database
-      const existingSession = await Session.findOne({ clientId });
-  
-      if (!existingSession) {
-        return res.status(404).json({ message: 'No session found for this clientId' });
-      }
-  
-      // Run the existing session using the session data from MongoDB
-      const client = await runExistingSession(clientId, existingSession.sessionData);
-  
-      res.status(200).json({
-        message: `Session for client ${clientId} is now running.`,
-        sessionData: existingSession.sessionData,
-      });
+        // Look for an existing session in the database
+        const existingSession = await Session.findOne({ clientId });
+
+        if (!existingSession) {
+            return res
+                .status(404)
+                .json({ message: 'No session found for this clientId' });
+        }
+
+        // Run the existing session using the session data from MongoDB
+        const client = await runExistingSession(
+            clientId,
+            // existingSession.sessionData
+            store
+        );
+        if (!client) {
+            return res.status(500).json({ message: 'Error running session' });
+        }
+
+        res.status(200).json({
+            message: `Session for client ${clientId} is now running.`,
+            sessionData: existingSession.sessionData,
+        });
     } catch (error) {
-      console.error('Error running existing session:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+        console.error('Error running existing session:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  };
+};
