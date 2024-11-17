@@ -1,0 +1,62 @@
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+dist/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+logs/*.log
+
+# Environment Variables
+.env
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+*.tgz
+data/
+
+# MongoDB
+*.lock
+dump/
+
+# WhatsApp Sessions (if using LocalAuth)
+.session/
+.session-*/*
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+
+# Misc
+*.bak
+*.tmp
+*.temp
+
+# Coverage and Reports
+coverage/
+*.lcov
+*.lcov.info
+.nyc_output/
+*.out
+
+# Heroku
+/.heroku/
+
+# Optional npm cache
+.npm/
+
+# Optional eslint cache
