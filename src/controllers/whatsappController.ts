@@ -27,7 +27,7 @@ export const createWhatsAppClient = async (id: string): Promise<Client> => {
     const client = new Client({
         // authStrategy: new LocalAuth({ clientId: id }),
         authStrategy: new RemoteAuth({
-            store: store.sessionData   ,
+            store: store,
             clientId: id,
             backupSyncIntervalMs: 180000,
         }),
