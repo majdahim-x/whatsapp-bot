@@ -25,12 +25,12 @@ export const createWhatsAppClient = async (id: string): Promise<Client> => {
 
     console.log(`Initializing client with ID: ${id}`);
     const client = new Client({
-        authStrategy: new LocalAuth({ clientId: id }),
-        // authStrategy: new RemoteAuth({
-        //     store: store.sessionData   ,
-        //     clientId: id,
-        //     backupSyncIntervalMs: 180000,
-        // }),
+        // authStrategy: new LocalAuth({ clientId: id }),
+        authStrategy: new RemoteAuth({
+            store: store.sessionData   ,
+            clientId: id,
+            backupSyncIntervalMs: 180000,
+        }),
     });
 
     client.on('qr', (qr) => {

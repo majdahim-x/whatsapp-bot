@@ -63,4 +63,4 @@ coverage/
 
 # wwebjs cache and auto-generated files
 .wwebjs_cache/
-.wwebjs_auth/
+# .wwebjs_auth/
