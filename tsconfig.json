@@ -6,8 +6,10 @@
         "rootDir": "./src",
         "strict": true,
         "esModuleInterop": true,
-        "typeRoots": ["node_modules/@types", "types"],
+        "noEmitOnError": false, // Allow output even if there are errors
+        "skipLibCheck": true, // Skip type checking for declaration files (node_modules)
+        "typeRoots": ["node_modules/@types", "types"]
     },
-    "include": ["src"],
+    "include": ["src", "types"],
     "exclude": ["node_modules"]
 }
