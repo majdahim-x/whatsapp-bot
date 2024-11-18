@@ -30,6 +30,7 @@ export const createWhatsAppClient = async (id: string): Promise<Client> => {
             store: store,
             clientId: id,
             backupSyncIntervalMs: 180000,
+            dataPath: '/tmp/.wwebjs_auth',
         }),
     });
 
